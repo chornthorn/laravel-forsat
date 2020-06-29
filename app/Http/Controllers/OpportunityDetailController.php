@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Lookups\OpportunityDetail;
+use App\Http\Resources\OpportunityDetailCollection;
+use App\Models\OpportunityDetail;
 use Illuminate\Http\Request;
 
 class OpportunityDetailController extends Controller
@@ -10,21 +11,11 @@ class OpportunityDetailController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return OpportunityDetailCollection
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return new OpportunityDetailCollection(OpportunityDetail::paginate(10));
     }
 
     /**
@@ -45,17 +36,6 @@ class OpportunityDetailController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(OpportunityDetail $opportunityDetail)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Lookups\OpportunityDetail  $opportunityDetail
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(OpportunityDetail $opportunityDetail)
     {
         //
     }

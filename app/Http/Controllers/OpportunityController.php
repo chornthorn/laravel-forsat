@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OpportunityStore;
 use App\Http\Resources\OpportunityCollection;
+use App\Http\Resources\Opportunity as OpportunityResource;
 use App\Models\Opportunity;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -20,46 +22,35 @@ class OpportunityController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param Request $request
-     * @return Response
+     * @return OpportunityResource
      */
-    public function store(Request $request)
+    public function store(OpportunityStore $request)
     {
-        //
+        $opportunity = Opportunity::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'category_id' => $request->categoryId,
+            'country_id' => $request->countryId,
+            'deadline' => $request->deadline,
+            'organizer' => $request->organizer,
+            'created_by' => $request->createdBy,
+        ]);
+
+        return new OpportunityResource($opportunity);
     }
 
     /**
      * Display the specified resource.
      *
      * @param  \App\Models\Lookups\Opportunity  $opportunity
-     * @return Response
+     * @return OpportunityResource
      */
     public function show(Opportunity $opportunity)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Lookups\Opportunity  $opportunity
-     * @return Response
-     */
-    public function edit(Opportunity $opportunity)
-    {
-        //
+        return new OpportunityResource($opportunity);
     }
 
     /**
@@ -67,21 +58,31 @@ class OpportunityController extends Controller
      *
      * @param Request $request
      * @param  \App\Models\Lookups\Opportunity  $opportunity
-     * @return Response
+     * @return OpportunityResource
      */
-    public function update(Request $request, Opportunity $opportunity)
+    public function update(OpportunityStore $request, Opportunity $opportunity)
     {
-        //
+        $opportunity->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'category_id' => $request->categoryId,
+            'country_id' => $request->countryId,
+            'deadline' => $request->deadline,
+            'organizer' => $request->organizer,
+            'created_by' => $request->createdBy,
+        ]);
+
+        return new OpportunityResource($opportunity);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Lookups\Opportunity  $opportunity
-     * @return Response
+     * @return bool
      */
     public function destroy(Opportunity $opportunity)
     {
-        //
+        return $opportunity->delete();
     }
 }

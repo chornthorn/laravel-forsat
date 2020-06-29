@@ -2,61 +2,58 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\QuestionCollection;
+use App\Http\Resources\Question as QuestionResource;
+use App\Models\Question;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class QuestionController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return QuestionCollection
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return new QuestionCollection(Question::paginate(10));
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return QuestionResource
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(),[
+            'question' => 'required|string|max:500',
+            'createdBy' => 'required|numeric'
+        ]);
+
+        if ($validator->fails()){
+            return response(['errors'=>$validator->errors()],422);
+        }
+
+        $question = Question::create([
+            'question' => $request->question,
+            'created_by' => $request->createdBy,
+        ]);
+
+        return new QuestionResource($question);
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return QuestionResource
      */
-    public function show($id)
+    public function show(Question $question)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        return new QuestionResource($question);
     }
 
     /**
@@ -64,11 +61,25 @@ class QuestionController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return QuestionResource
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Question $question)
     {
-        //
+        $validator = Validator::make($request->all(),[
+            'question' => 'required|string|max:500',
+            'createdBy' => 'required|numeric'
+        ]);
+
+        if ($validator->fails()){
+            return response(['errors'=>$validator->errors()],422);
+        }
+
+        $question->update([
+            'question' => $request->question,
+            'created_by' => $request->createdBy,
+        ]);
+
+        return new QuestionResource($question);
     }
 
     /**
@@ -77,8 +88,8 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Question $question)
     {
-        //
+        $question->delete();
     }
 }

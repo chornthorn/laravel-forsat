@@ -2,25 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Lookups\Opportunity;
+use App\Http\Resources\OpportunityCollection;
+use App\Models\Opportunity;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class OpportunityController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return OpportunityCollection
      */
     public function index()
     {
-        //
+        return new OpportunityCollection(Opportunity::paginate(10));
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -30,8 +32,8 @@ class OpportunityController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -42,7 +44,7 @@ class OpportunityController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Lookups\Opportunity  $opportunity
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show(Opportunity $opportunity)
     {
@@ -53,7 +55,7 @@ class OpportunityController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Lookups\Opportunity  $opportunity
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit(Opportunity $opportunity)
     {
@@ -63,9 +65,9 @@ class OpportunityController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  \App\Models\Lookups\Opportunity  $opportunity
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, Opportunity $opportunity)
     {
@@ -76,7 +78,7 @@ class OpportunityController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Lookups\Opportunity  $opportunity
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(Opportunity $opportunity)
     {

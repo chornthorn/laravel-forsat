@@ -80,4 +80,8 @@ class AuthController extends Controller
         return $request->user();
     }
 
+    public function authFailed()
+    {
+        return response('unauthenticated',401);
+    }
 }

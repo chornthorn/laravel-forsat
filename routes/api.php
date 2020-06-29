@@ -24,9 +24,6 @@ Route::prefix('auth')->group(function () {
 });
 
 
-//Route::get('/opportunities','OpportunityController@index');
-//Route::post('/opportunities','OpportunityController@store');
-
 Route::group(['prefix' => 'lookups', 'middleware' => 'auth:api'], function () {
     Route::resource('category', 'CategoryController');
     Route::resource('country', 'CountryController');

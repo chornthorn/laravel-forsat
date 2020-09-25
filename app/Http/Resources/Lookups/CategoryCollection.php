@@ -14,6 +14,10 @@ class CategoryCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'data' => $this->collection,
+            'status_code' => 200,
+            'status_message' => 'Successfully',
+        ];
     }
 }

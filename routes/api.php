@@ -24,7 +24,7 @@ Route::prefix('auth')->group(function () {
 });
 
 
-Route::group(['prefix' => 'lookups', 'middleware' => 'auth:api'], function () {
+Route::group(['prefix' => 'lookups'], function () {
     Route::resource('category', 'CategoryController');
     Route::resource('country', 'CountryController');
 });

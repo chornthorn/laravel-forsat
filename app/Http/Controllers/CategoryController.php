@@ -13,10 +13,11 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return CategoryCollection
+     * @return CategoryCollection|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
     public function index()
     {
+//        return response(new CategoryCollection(Category::all()),200);
         return new CategoryCollection(Category::all());
     }
 
@@ -24,7 +25,7 @@ class CategoryController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return CategoryResource
+     * @return CategoryResource|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
     public function store(Request $request)
     {
@@ -36,7 +37,7 @@ class CategoryController extends Controller
         }
         $category = Category::create($request->all());
 
-        return new CategoryResource($category);
+        return response(['status_message'=>'save successfully'],200);
     }
 
     /**
@@ -55,7 +56,7 @@ class CategoryController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Lookups\Category  $category
-     * @return CategoryResource
+     * @return CategoryResource|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
     public function update(Request $request, Category $category)
     {
@@ -66,9 +67,9 @@ class CategoryController extends Controller
             return response(['errors'=> $validator->errors()],422);
         }
 
-        $category = $category->update($request->all());
+       $category->update($request->all());
 
-        return new CategoryResource($category);
+        return response(['status_message'=>'Update successfully'],200);
     }
 
     /**
@@ -79,7 +80,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //$category->delete();
-        return 'the category has been deleted!';
+        $category->delete();
+        return response(['status_message'=>'Delete successfully'],200);
     }
 }
